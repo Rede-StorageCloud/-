@@ -1,5 +1,5 @@
 
 {  
-"1": {"user": "b7_38975329", "pass": "Senha123456@", "domain": "storage.byethost7.com"}, 
-"2": {"user": "b11_38975366", "pass": "Senha123456@", "domain": "storage.byethost11.com"}
+"1": {"host": "fptupload.net","user": "b7_38975329", "pass": "Senha123456@", "domain": "storage.byethost7.com"}, 
+"2": {"host": "ftpupload.net","user": "b11_38975366", "pass": "Senha123456@", "domain": "storage.byethost11.com"}
  }
