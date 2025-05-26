@@ -1,38 +1,117 @@
 {
-  "title": "Documentação da API StorageCloud",
-  "description": "Explore os recursos e endpoints disponíveis.",
-  "theme": {
-    "bg": "#f0f4f8",
-    "fg": "#111827",
-    "primary": "#2563eb"
-  },
-  "sections": [
+  "title": "StorageCloud API Documentation",
+  "description": "Plataforma gratuita para upload, armazenamento e download de arquivos com controle de créditos.",
+  "backgroundColor": "#f5f5f5",
+  "textColor": "#111",
+  "footer": "StorageCloud API v1.0 - Desenvolvido por Comunidade OpenSource",
+  "blocks": [
     {
-      "type": "text",
+      "type": "section",
       "title": "Introdução",
-      "content": "Esta é a documentação da API StorageCloud."
+      "description": "A StorageCloud é uma API gratuita e colaborativa que permite o armazenamento e compartilhamento de arquivos com controle de créditos baseado em identificadores únicos por usuário."
     },
     {
-      "type": "note",
-      "content": "Você precisa de uma chave de API para autenticação."
-    },
-    {
-      "type": "parameters",
-      "title": "Parâmetros",
-      "parameters": [
+      "type": "section",
+      "title": "Endpoints",
+      "blocks": [
         {
-          "name": "token",
-          "type": "string",
-          "required": true,
-          "example": "abc123",
-          "description": "Token de autenticação do usuário."
+          "type": "endpoint",
+          "title": "Upload de Arquivos",
+          "method": "POST",
+          "url": "https://storagecloud.example.com/api.php?upload&id=SEU_ID",
+          "description": "Envia um arquivo para o servidor FTP associado ao ID informado.",
+          "parameters": [
+            { "name": "id", "required": true, "description": "Identificador do usuário" },
+            { "name": "file", "required": true, "description": "Arquivo a ser enviado (form-data)" }
+          ],
+          "note": "Cada upload consome 1 crédito."
+        },
+        {
+          "type": "endpoint",
+          "title": "Download de Arquivo",
+          "method": "GET",
+          "url": "https://storagecloud.example.com/api.php?download=CAMINHO&id=SEU_ID",
+          "description": "Baixa um arquivo hospedado usando o caminho e ID.",
+          "parameters": [
+            { "name": "download", "required": true, "description": "Caminho relativo do arquivo" },
+            { "name": "id", "required": true, "description": "Identificador do usuário" }
+          ],
+          "note": "Cada download consome 1 crédito."
+        },
+        {
+          "type": "endpoint",
+          "title": "Visualizar Texto",
+          "method": "GET",
+          "url": "https://storagecloud.example.com/api.php?text=CAMINHO&id=SEU_ID",
+          "description": "Exibe o conteúdo de um arquivo como texto plano.",
+          "parameters": [
+            { "name": "text", "required": true, "description": "Caminho relativo do arquivo de texto" },
+            { "name": "id", "required": true, "description": "Identificador do usuário" }
+          ],
+          "note": "Apenas arquivos de texto (txt, json, etc)."
+        },
+        {
+          "type": "endpoint",
+          "title": "Consultar Créditos",
+          "method": "GET",
+          "url": "https://storagecloud.example.com/api.php?credits&id=SEU_ID",
+          "description": "Retorna o número de créditos restantes do usuário.",
+          "parameters": [
+            { "name": "id", "required": true, "description": "Identificador do usuário" }
+          ]
         }
       ]
     },
     {
-      "type": "code",
-      "title": "Exemplo de Requisição",
-      "content": "fetch('https://api.storagecloud.com', { method: 'GET' });"
+      "type": "section",
+      "title": "Exemplos de Uso",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "html",
+          "title": "Upload via HTML",
+          "content": "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"https://storagecloud.example.com/api.php?upload&id=USER123\">\n  <input type=\"file\" name=\"file\" />\n  <button type=\"submit\">Enviar</button>\n</form>"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Download via JavaScript",
+          "content": "const url = 'https://storagecloud.example.com/api.php?download=meuarquivo.zip&id=USER123';\nwindow.open(url, '_blank');"
+        },
+        {
+          "type": "code",
+          "language": "python",
+          "title": "Ver Créditos via Python",
+          "content": "import requests\nr = requests.get('https://storagecloud.example.com/api.php?credits&id=USER123')\nprint(r.json())"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Formato de Resposta JSON",
+      "description": "Todas as respostas são retornadas em JSON:",
+      "code": {
+        "language": "json",
+        "content": "{\n  \"status\": \"success\",\n  \"message\": \"Arquivo enviado com sucesso\",\n  \"data\": {\n    \"url\": \"https://storagecloud.example.com/files/arquivo.zip\"\n  }\n}"
+      }
+    },
+    {
+      "type": "section",
+      "title": "Tabela de Extensões Suportadas",
+      "table": {
+        "headers": ["Tipo", "Extensões"],
+        "rows": [
+          ["Imagens", "jpg, png, gif, webp"],
+          ["Texto", "txt, json, log"],
+          ["Compactados", "zip, rar"],
+          ["Executáveis", "apk, exe"]
+        ]
+      }
+    },
+    {
+      "type": "section",
+      "title": "Notas Finais",
+      "description": "Você pode utilizar seu próprio servidor FTP ou um servidor gratuito configurado pela comunidade. A API valida o ID e controla os créditos restantes para cada operação."
     }
   ]
 }
