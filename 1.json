@@ -1,0 +1,216 @@
+{
+  "header": {
+    "title": "StorageCloud API",
+    "subtitle": "Documentação da API Gratuita, Livre e Colaborativa",
+    "styles": {
+      "backgroundColor": "var(--primary)",
+      "color": "white",
+      "padding": "40px 20px",
+      "textAlign": "center",
+      "boxShadow": "0 2px 8px rgba(0,0,0,0.2)",
+      "fontSize": "2.6em"
+    }
+  },
+  "container": {
+    "sections": [
+      {
+        "title": "O que é o StorageCloud?",
+        "content": [
+          "O StorageCloud é uma plataforma gratuita e colaborativa para envio, armazenamento e download de arquivos. O sistema possui controle inteligente de créditos, gerenciado diretamente pela marca StorageCloud, sem dependência de terceiros."
+        ],
+        "note": {
+          "text": "Cada envio ou download consome 1 crédito associado ao id. O controle de créditos é realizado de forma exclusiva e segura pela plataforma StorageCloud.",
+          "style": {
+            "background": "#fef9c3",
+            "borderLeft": "6px solid #facc15",
+            "padding": "16px",
+            "margin": "20px 0",
+            "borderRadius": "6px",
+            "fontWeight": "500"
+          }
+        }
+      },
+      {
+        "title": "Visualização de Créditos em Tempo Real",
+        "content": [
+          "Abaixo você pode consultar em tempo real a quantidade atual de créditos disponíveis para um determinado id. Os dados são atualizados automaticamente a cada 5 segundos, através da integração com o endpoint credits.php."
+        ],
+        "creditBox": {
+          "id": "creditBox",
+          "initialText": "Carregando créditos disponíveis..."
+        }
+      },
+      {
+        "title": "Como Funciona?",
+        "list": [
+          "API sem autenticação, sem chave e sem cadastro.",
+          "Envie arquivos via requisição POST.",
+          "Baixe arquivos diretamente via requisição HTTP GET.",
+          "Cada ação consome 1 crédito global vinculado ao id.",
+          "Os créditos são controlados de forma centralizada pela StorageCloud."
+        ]
+      },
+      {
+        "title": "Parâmetros Obrigatórios",
+        "parameters": [
+          {
+            "name": "file",
+            "type": "Arquivo (multipart/form-data)",
+            "required": true,
+            "description": "Arquivo a ser enviado (upload)."
+          },
+          {
+            "name": "punch",
+            "type": "String",
+            "required": true,
+            "example": "sistemas/cliente1/logo.png",
+            "description": "Define o caminho lógico onde o arquivo será armazenado no FTP remoto."
+          },
+          {
+            "name": "id",
+            "type": "String",
+            "required": true,
+            "description": "Identificador para verificar e descontar créditos em todas as requisições (GET e POST)."
+          }
+        ]
+      },
+      {
+        "title": "Como Realizar Upload",
+        "description": "Faça uma requisição POST enviando o arquivo e os parâmetros:",
+        "codeExample": {
+          "language": "bash",
+          "code": "curl -X POST https://api-storagecloud.onrender.com/ -F \"file=@seuarquivo.png\" -F \"punch=sistemas/cliente1/logo.png\" -F \"id=Free\""
+        },
+        "examples": [
+          {
+            "language": "Python",
+            "code": "import requests\nurl = 'https://api-storagecloud.onrender.com/'\nfiles = {'file': open('seuarquivo.png', 'rb')}\ndata = {'punch': 'sistemas/cliente1/logo.png', 'id': 'Free'}\nresponse = requests.post(url, files=files, data=data)\nprint(response.text)"
+          },
+          {
+            "language": "PHP",
+            "code": "<?php\n$url = 'https://api-storagecloud.onrender.com/';\n$filePath = 'seuarquivo.png';\n$postFields = [\n  'file' => new CURLFile($filePath),\n  'punch' => 'sistemas/cliente1/logo.png',\n  'id' => 'Free'\n];\n$ch = curl_init();\ncurl_setopt($ch, CURLOPT_URL, $url);\ncurl_setopt($ch, CURLOPT_POST, true);\ncurl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n$response = curl_exec($ch);\ncurl_close($ch);\necho $response;\n?>"
+          },
+          {
+            "language": "JavaScript",
+            "code": "const formData = new FormData();\nformData.append('file', fileInput.files[0]);\nformData.append('punch', 'sistemas/cliente1/logo.png');\nformData.append('id', 'Free');\nfetch('https://api-storagecloud.onrender.com/', {\n  method: 'POST',\n  body: formData\n}).then(res => res.text())\n  .then(console.log)\n  .catch(console.error);"
+          }
+        ]
+      },
+      {
+        "title": "Como Realizar Download",
+        "description": "Basta acessar a URL do arquivo com o parâmetro id:",
+        "codeExample": {
+          "language": "url",
+          "code": "https://api-storagecloud.onrender.com/sistemas/cliente1/logo.png?id=Free"
+        },
+        "examples": [
+          {
+            "language": "Python",
+            "code": "import requests\nurl = 'https://api-storagecloud.onrender.com/sistemas/cliente1/logo.png?id=Free'\nresponse = requests.get(url)\nif response.status_code == 200:\n    with open('logo.png', 'wb') as f:\n        f.write(response.content)"
+          },
+          {
+            "language": "PHP",
+            "code": "<?php\n$url = 'https://api-storagecloud.onrender.com/sistemas/cliente1/logo.png?id=Free';\n$content = file_get_contents($url);\nfile_put_contents('logo.png', $content);\n?>"
+          },
+          {
+            "language": "JavaScript",
+            "code": "fetch('https://api-storagecloud.onrender.com/sistemas/cliente1/logo.png?id=Free')\n  .then(res => res.blob())\n  .then(blob => {\n    const url = window.URL.createObjectURL(blob);\n    const a = document.createElement('a');\n    a.href = url;\n    a.download = 'logo.png';\n    document.body.appendChild(a);\n    a.click();\n    a.remove();\n    window.URL.revokeObjectURL(url);\n  });"
+          }
+        ]
+      },
+      {
+        "title": "Endpoints Importantes",
+        "endpoints": [
+          {
+            "name": "Upload de Arquivos",
+            "url": "https://api-storagecloud.onrender.com/",
+            "method": "POST",
+            "copyable": true
+          },
+          {
+            "name": "Download de Arquivos",
+            "url": "https://api-storagecloud.onrender.com/seu/caminho/arquivo.png?id=Free",
+            "copyable": true
+          },
+          {
+            "name": "URL de Anúncio (Geração de Créditos)",
+            "url": "https://api-storagecloud.onrender.com/ads.php",
+            "copyable": true
+          },
+          {
+            "name": "Verificação de Créditos",
+            "url": "https://api-storagecloud.onrender.com/credits.php?id=Free",
+            "copyable": true,
+            "description": "Utilize esta URL para consultar a quantidade atual de créditos vinculados ao id informado."
+          }
+        ]
+      },
+      {
+        "title": "Como Ajudar?",
+        "list": [
+          "Utilize a URL de anúncio em sites ou aplicativos para gerar créditos automaticamente.",
+          "Compartilhe a plataforma para ampliar a comunidade e aumentar os créditos disponíveis."
+        ]
+      },
+      {
+        "title": "Componentes e Funcionamento Completo da StorageCloud API",
+        "table": {
+          "headers": ["Componente", "Função", "Como Funciona", "Exemplo"],
+          "rows": [
+            {
+              "component": "id (Identificador)",
+              "function": "Identifica o cliente/usuário na plataforma. Controla créditos individualmente.",
+              "operation": "Cada upload ou download utiliza este id para descontar 1 crédito do saldo associado. Controle seguro e exclusivo da StorageCloud.",
+              "example": "Free ou cliente123"
+            },
+            {
+              "component": "file (Arquivo)",
+              "function": "Arquivo enviado para armazenamento.",
+              "operation": "Deve ser enviado via POST usando multipart/form-data. Obrigatório para upload.",
+              "example": "Arquivo PNG, PDF, etc. enviado pelo formulário."
+            },
+            {
+              "component": "punch (Caminho/Destino)",
+              "function": "Define caminho lógico e nome do arquivo no FTP remoto.",
+              "operation": "Exemplo: sistemas/cliente1/logo.png organiza o arquivo em pastas específicas.",
+              "example": "sistemas/cliente1/documento.pdf"
+            },
+            {
+              "component": "Créditos",
+              "function": "Unidade de consumo para upload e download.",
+              "operation": "Cada operação consome 1 crédito do id. Créditos são descontados automaticamente e controlados centralmente.",
+              "example": "Saldo consultável em tempo real."
+            },
+            {
+              "component": "credits.php (Consulta de Créditos)",
+              "function": "Endpoint para verificar créditos disponíveis.",
+              "operation": "Retorna JSON com o número atual de créditos para o id.",
+              "example": "https://api-storagecloud.onrender.com/credits.php?id=Free"
+            },
+            {
+              "component": "ads.php (Geração de Créditos)",
+              "function": "URL para gerar créditos extras.",
+              "operation": "Ao acessar, o sistema concede créditos gratuitos vinculados ao id do anúncio.",
+              "example": "https://api-storagecloud.onrender.com/ads.php"
+            },
+            {
+              "component": "Upload",
+              "function": "Envio de arquivos para o servidor.",
+              "operation": "Requisição POST com parâmetros e arquivo no body.",
+              "example": "curl -X POST ..."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "footer": {
+    "text": "StorageCloud API - Documentação Completa © 2025",
+    "style": {
+      "textAlign": "center",
+      "padding": "40px 20px",
+      "color": "#6b7280",
+      "marginTop": "60px"
+    }
+  }
+}
