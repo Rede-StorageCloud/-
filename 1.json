@@ -1,114 +1,38 @@
 {
-  "title": "StorageCloud API Documentation",
-  "description": "API gratuita para upload, armazenamento e download de arquivos com controle de créditos.",
-  "style": {
-    "backgroundColor": "#f5f5f5",
-    "textColor": "#333",
-    "accentColor": "#1a73e8"
+  "title": "Documentação da API StorageCloud",
+  "description": "Explore os recursos e endpoints disponíveis.",
+  "theme": {
+    "bg": "#f0f4f8",
+    "fg": "#111827",
+    "primary": "#2563eb"
   },
-  "blocks": [
-    {
-      "type": "title",
-      "content": "StorageCloud API",
-      "style": {
-        "fontSize": "2.5em",
-        "textAlign": "center",
-        "marginBottom": "20px"
-      }
-    },
+  "sections": [
     {
       "type": "text",
-      "content": "Bem-vindo à API StorageCloud. Esta API permite upload, armazenamento e download de arquivos usando identificadores únicos, além de exibir o conteúdo de arquivos de texto e controlar créditos por usuário.",
-      "style": {
-        "textAlign": "center",
-        "maxWidth": "800px",
-        "margin": "auto",
-        "marginBottom": "30px"
-      }
-    },
-    {
-      "type": "section",
-      "title": "Endpoints",
-      "items": [
-        {
-          "label": "Upload de Arquivo",
-          "url": "/upload.php",
-          "method": "POST",
-          "description": "Faz o upload de um arquivo e retorna o ID gerado.",
-          "parameters": [
-            { "name": "file", "type": "file", "required": true, "description": "Arquivo a ser enviado." }
-          ]
-        },
-        {
-          "label": "Download de Arquivo",
-          "url": "/download.php?id=SEU_ID",
-          "method": "GET",
-          "description": "Permite o download de um arquivo usando o ID.",
-          "parameters": [
-            { "name": "id", "type": "string", "required": true, "description": "Identificador único do arquivo." }
-          ]
-        },
-        {
-          "label": "Visualizar Texto",
-          "url": "/download.php?id=SEU_ID&text=true",
-          "method": "GET",
-          "description": "Exibe o conteúdo de arquivos como texto se forem arquivos compatíveis (txt, html, json, etc.).",
-          "parameters": [
-            { "name": "id", "type": "string", "required": true },
-            { "name": "text", "type": "boolean", "required": false, "description": "Definir como true para exibir o conteúdo como texto." }
-          ]
-        },
-        {
-          "label": "Ver Créditos",
-          "url": "/credits.php?user=USUARIO",
-          "method": "GET",
-          "description": "Mostra a quantidade de créditos disponíveis para um usuário.",
-          "parameters": [
-            { "name": "user", "type": "string", "required": true }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "section",
-      "title": "Exemplos de Uso",
-      "items": [
-        {
-          "label": "Upload com cURL",
-          "language": "bash",
-          "code": "curl -F \"file=@exemplo.txt\" https://seusite.com/upload.php"
-        },
-        {
-          "label": "Download com JavaScript",
-          "language": "javascript",
-          "code": "fetch('https://seusite.com/download.php?id=SEU_ID')\n  .then(response => response.blob())\n  .then(blob => {\n    const url = URL.createObjectURL(blob);\n    window.open(url);\n  });"
-        },
-        {
-          "label": "Ver texto com HTML",
-          "language": "html",
-          "code": "<iframe src=\"https://seusite.com/download.php?id=SEU_ID&text=true\"></iframe>"
-        }
-      ]
+      "title": "Introdução",
+      "content": "Esta é a documentação da API StorageCloud."
     },
     {
       "type": "note",
-      "content": "Você pode usar o parâmetro `text=true` apenas em arquivos que sejam compatíveis com visualização textual. O conteúdo será retornado como `text/plain` ou `text/html`, dependendo do tipo.",
-      "style": {
-        "backgroundColor": "#fff9c4",
-        "border": "1px solid #fdd835",
-        "padding": "10px",
-        "marginTop": "20px"
-      }
+      "content": "Você precisa de uma chave de API para autenticação."
     },
     {
-      "type": "footer",
-      "content": "StorageCloud API © 2025. Todos os direitos reservados.",
-      "style": {
-        "textAlign": "center",
-        "padding": "20px",
-        "fontSize": "0.9em",
-        "color": "#777"
-      }
+      "type": "parameters",
+      "title": "Parâmetros",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "string",
+          "required": true,
+          "example": "abc123",
+          "description": "Token de autenticação do usuário."
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Exemplo de Requisição",
+      "content": "fetch('https://api.storagecloud.com', { method: 'GET' });"
     }
   ]
 }
